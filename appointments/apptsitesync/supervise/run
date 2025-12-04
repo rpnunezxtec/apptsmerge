@@ -1,0 +1,5 @@
+#!/bin/sh
+echo ... Appointment site sync service starting ...
+exec 2>&1
+exec nice -10 php -f /authentx/app/https/dhs/appointments/apptsitesync/bin/apptsitesync.php
+

@@ -1,0 +1,332 @@
+:root {
+  --ink: #0f172a;
+  --muted: #64748b;
+  --card: #ffffff;
+  --border: #75777c;
+  --brand: #00476b;
+  --brand-ink: #fff;
+  --radius: 16px;
+  --gap: 20px;
+  --space-xl: 28px;
+  --shadow: 0 0 0 -10px rgba(225, 226, 236, 0.12),
+    0 8px 18px -16px rgba(217, 219, 233, 0.18),
+    0 20px 44px -22px rgba(223, 224, 235, 0.28);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.main_usaccess {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  background: #fff;
+  min-height: 100svh;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+/* header/logo */
+.header {
+  padding: 14px 0 6px;
+  text-align: center;
+}
+.header .logo img {
+  max-width: 220px;
+  height: auto;
+  opacity: 0.9;
+}
+
+/* center the form in the available space */
+.content_usaccess {
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+
+#loginform {
+  width: min(100%, 1000px);
+  margin: 0 auto;
+}
+
+/* page title */
+.page_title {
+  color: #00476b;
+  font-weight: 800;
+  text-align: center;
+  /* margin-bottom: var(--space-xl); */
+
+  font-size: clamp(1.6rem, 1.2rem + 1.5vw, 8.4rem);
+  /* margin: 10px 0 24px; */
+  /* margin: 0 auto; */
+}
+
+/* always keep cards in one row */
+.cards_usaccess {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+  gap: var(--gap);
+  overflow-x: auto;
+  padding-bottom: 8px;
+  flex-wrap: wrap;
+  overflow-y: visible;
+  max-width: 1100;
+  margin: 0 auto;
+  margin-bottom: 10%;
+  padding: 0 8px 8px 0;
+}
+
+/* boxed card */
+.card_usaccess {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 18px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 320px; /* fixed width so they don't squish */
+  max-width: 306px;
+  flex: 1 1 calc(33.333% - 20px); /* 3 per row */
+  box-sizing: border-box;
+  box-shadow: 1px 2px 8px 2px rgba(0, 0, 0, 0.2);
+}
+
+.card_usaccess:hover {
+  transform: translateY(2px);
+  border-color: var(--border);
+}
+
+.card_title {
+  margin: 2px 0 4px;
+  font-weight: 400;
+  color: var(--ink);
+}
+.card_text {
+  margin: 0 0 8px;
+  color: var(--muted);
+  line-height: 1.4;
+  min-height: 2.2em;
+}
+
+.card_divider {
+  border: none;
+  border-top: 2px solid #bec2c9;
+  margin: 2px 0 5px;
+  width: 100%;
+}
+
+/* modern button */
+.btn_primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 120px;
+  margin: 0 auto;
+  padding: 0 10px;
+  border-radius: 6px;
+  border: 0;
+  background: var(--brand);
+  color: var(--brand-ink);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+  text-decoration: none;
+}
+
+.btn_primary:hover {
+  transform: translateY(-1px);
+}
+.btn_primary:active {
+  transform: translateY(0);
+}
+.btn_primary:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 2px;
+}
+.card_usaccess .btn_primary {
+  align-self: stretch;
+}
+
+.btn_primary.fingerprint {
+  position: relative;
+  padding-left: 25px; /* make room for icon */
+}
+
+/* add the fingerprint as its own layer */
+.btn_primary.fingerprint::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  background: url("../images/fingerprint_icon_button.png") no-repeat center;
+  background-size: contain;
+
+  /* recolor the PNG white */
+  filter: brightness(0) invert(1);
+}
+
+.btn_primary.back {
+  font-size: 18px;
+  position: relative;
+}
+
+/* add the fingerprint as its own layer */
+.btn_primary.back::before {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 25px;
+  height: 25px;
+  /* background: url("../images/back_icon_button.png") no-repeat center; */
+  background-size: contain;
+
+  /* recolor the PNG white */
+  filter: brightness(0) invert(1);
+}
+
+.btn_primary.calendar {
+  position: relative;
+  padding-left: 40px; /* make room for icon */
+}
+
+/* add the fingerprint as its own layer */
+.btn_primary.calendar::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 23px;
+  height: 23px;
+  background: url("../images/calendar_icon_button.png") no-repeat center;
+  background-size: contain;
+
+  /* recolor the PNG white */
+  filter: brightness(0) invert(1);
+}
+
+.btn_primary.reports {
+  position: relative;
+  padding-left: 30px; /* make room for icon */
+}
+
+/* add the fingerprint as its own layer */
+.btn_primary.reports::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background: url("../images/reports_icon_button.png") no-repeat center;
+  background-size: contain;
+
+  /* recolor the PNG white */
+  filter: brightness(0) invert(1);
+}
+.btn_primary.inventory {
+  position: relative;
+  padding-left: 40px; /* make room for icon */
+}
+
+/* add the fingerprint as its own layer */
+.btn_primary.inventory::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 35px;
+  height: 35px;
+  background: url("../images/inventory_icon_button.png") no-repeat center;
+  background-size: contain;
+
+  /* recolor the PNG white */
+  filter: brightness(0) invert(1);
+}
+.btn_primary.faq {
+  position: relative;
+  padding-left: 25px; /* make room for icon */
+}
+
+/* add the fingerprint as its own layer */
+.btn_primary.faq::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 25px;
+  height: 25px;
+  background: url("../images/faq_icon_button.png") no-repeat center;
+  background-size: contain;
+
+  /* recolor the PNG white */
+  filter: brightness(0) invert(1);
+}
+
+.btn_primary.training {
+  position: relative;
+  padding-left: 40px; /* make room for icon */
+}
+
+/* add the fingerprint as its own layer */
+.btn_primary.training::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  background: url("../images/training_icon_button.png") no-repeat center;
+  background-size: contain;
+}
+
+div.usaccessdenied {
+  max-width: 800px;
+  margin: 60px auto;
+  padding: 32px 36px;
+  background: #faf8f8;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  line-height: 1.65;
+  color: #374151;
+}
+
+.h2heading {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 700;
+  color: crimson;
+}
+
+.ulist {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  background: #f9fafb;
+  border-left: 4px solid crimson;
+  border-radius: 6px;
+  line-height: 1.6;
+}

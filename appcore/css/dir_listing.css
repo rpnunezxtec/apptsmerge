@@ -1,0 +1,40 @@
+#dlist_header 
+{
+	color: #476BB3;
+	background-color: #B0B0B0;
+	font-weight: bold;
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-size: 11px;
+	text-align: left;
+}
+
+#dlist_row
+{
+	font-weight: normal;
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-size: 11px;
+	text-align: left;
+	color: #000000;
+}
+
+#dlist_row a
+{
+	color: #6285CA;
+	text-decoration: none;
+}
+
+#dlist_row a:hover
+{
+	color: #6285CA;
+	text-decoration: underline;
+}
+
+.odd 
+{
+	background-color: #E9F0FF;
+}
+
+.even
+{
+	background-color:#FFFFFF;
+}

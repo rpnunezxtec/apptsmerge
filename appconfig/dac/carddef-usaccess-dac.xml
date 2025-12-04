@@ -1,0 +1,261 @@
+<credentialConfig>
+
+	<metadata title="Authentx Card Defintion DAC" />
+
+	<ConnectionSettings host="localhost" port="8389" userdn="" password="" />
+
+	<dataSource>
+
+		<authentxRoot>
+
+			<dataitem name="edn" attr="edn" multi="no" />
+			<dataitem name="cdn" attr="cdn" multi="yes" />
+			<!-- dataitem name="pdn" attr="pdn" multi="yes" /-->
+
+		</authentxRoot>
+
+		<dataObject name="root" link="root" objclass="credential">
+
+			<dataitem name="edn" attr="edn" multi="no" />
+
+		</dataObject>
+
+		<dataObject name="entity" link="edn" objclass="entity">
+
+			<dataitem name="dob" attr="dob" />
+			<dataitem name="eid" attr="eid" />
+			<dataitem name="eyeclr" attr="eyeclr" />
+			<dataitem name="first" attr="firstname"/>
+			<dataitem name="hght" attr="hght"/>
+			<dataitem name="hrclr" attr="hrclr"/>
+			<dataitem name="last" attr="lastname" />
+			<dataitem name="mi" attr="mi" />
+			<dataitem name="nationality" attr="nationality" />
+			<dataitem name="suffix" attr="suffix" />
+			<dataitem name="sponsor" attr="sponsor"/>
+			<dataitem name="ediident" attr="ediident"/>
+
+		</dataObject>
+
+		<dataObject name="entity.entitybranchname" link="edn" objrdn="sysid=entitybranchname" objclass="xsystem">
+			<dataitem name="agency" attr="sysval"/>
+		</dataObject>
+
+		<dataObject name="entity.general" link="edn" objrdn="gcoid=general" objclass="gco">
+			<dataitem name="data" attr="xblk" multi="yes" >
+				<xblkinfo
+					x002502="affiliation"
+					x002355="agencyrole"
+					x002356="agencytext"
+					x002353="dutystation"
+					/>
+			</dataitem>
+		</dataObject>
+
+		<dataObject name="cardCredential.icccin" link="edn" objrdn="sysid=icccin,procid=token,ounit=dac" objclass="gco" modify="no">
+			<dataitem name="issidssn" attr="sysval" />
+		</dataObject>
+
+		<dataObject name="card.data" link="edn" objrdn="gcoid=token,procid=token,ounit=dac" objclass="gco" modify="no">
+
+			<dataitem name="cardpin" attr="upin" />
+			<dataitem name="data" attr="xblk" multi="yes" >
+				<!-- x000031="cardpin" old location -->
+				<xblkinfo
+					x0020c3="upn"
+					x002336="accesspin"
+					x000053="expdate"
+					x000052="issdate"
+					x00207b="changedate"
+					x002055="cardpickup"
+					x002335="issueby"
+					x002521="specdesignation"
+					x000054="cardtype"
+					x002301="clearance"
+					x0020c6="ctopo"
+					x002087="issreason"
+					x003004="issreason"
+					/>
+			</dataitem>
+		</dataObject>
+	</dataSource>
+
+	<dataTarget format="credential_xblk" return="dn">
+
+		<authentxRoot>
+			<dataitem name="cdn" attr="cdn" multi="yes" />
+		</authentxRoot>
+
+			<!--
+ 			IF action=update, the targetRoot is built, but not actually updated.  Allows save=yes
+			to be used to capture an existing value.
+			-->
+
+		<targetRoot link="cdn" id="cid" objclass="credential" >
+
+			<copyitem type="attr" name="issby" source="entity:sponsor" />
+			<copyitem type="attr" name="ctype" value="" />
+			<copyitem type="attr" name="desc" value="AuthentX DAC Card" />
+			<copyitem type="attr" name="rem" value="version=2" />
+			<copyitem type="attr" name="tokentype" value="dac" />
+			<copyitem type="attr" name="tokenclass" value="dac" />
+			<copyitem type="attr" name="status"	value="dacPending" />
+			<copyitem type="attr" name="action"	value="PrintEncode" /> <!-- or Export -->
+			<copyitem type="attr" name="issreason"	source="card.data:issreason" /> default="new"
+
+			<copyitem type="ref" name="defaultexpdate" process="expdate[,,730]" save="yes" />
+			<copyitem type="ref" name="expdate" source="card.data:expdate" altsource="me:defaultexpdate" process="substr[0,8]" save="yes" />
+			<copyitem type="ref" name="issdate" process="datestamp" save="yes" />
+
+			<copyitem type="attr" name="expdate" source="me:expdate" process="ldapdate" />
+			<copyitem type="attr" name="issdate" source="me:issdate" process="ldapdate" />
+
+			<datagroup name="objlog" attr="objectlog" type="calculated" process="concat">
+				<groupitem value="object created by "/>
+				<groupitem source="entity:sponsor" />
+				<groupitem value=" at " />
+				<groupitem process="timestamp" />
+			</datagroup>
+
+			<copyitem type="attr" name="cardtopology" source="card.data:ctopo" altsource="cardCredential:ctopo"/>
+			<copyitem type="attr" name="ctype" source="card.data:cardtype" altsource="cardCredential:cardtype"/>
+			<copyitem type="attr" name="cuid" source="me:targetid" save="yes" />
+
+			<copyitem type="ref" name="crednum" value="000000" save="yes" />
+			<copyitem type="ref" name="agency" 	value="0000" save="yes" /> <!-- DHS -->
+			<copyitem type="ref" name="system" 	value="0000" save="yes" />
+			<copyitem type="ref" name="series" 	value="0"  save="yes" />
+			<copyitem type="ref" name="issnum" 	value="1"  save="yes" />
+			<copyitem type="ref" name="ssn" 	value="000000000"  save="yes" />
+			<copyitem type="ref" name="reserved" 	value="0000000"  save="yes" />
+			<copyitem type="ref" name="edipi" 	value="0000000000" save="yes" />
+			<copyitem type="ref" name="orgcat" 	value="1" save="yes" />  Federal Agency
+			<copyitem type="ref" name="orgid" 	source="me:agency" save="yes" />
+			<copyitem type="ref" name="poassoc" source="entity.general:affiliation"  process="getpoacode" save="yes" />
+
+
+			<datagroup name="seiwg" type="calculated" process="calcfascn" multi="no" save="yes">
+				<groupitem name="agency" 		source="me:agency"/>
+				<groupitem name="system" 		source="me:system"/>
+				<groupitem name="credential"	source="me:crednum" />
+				<groupitem name="series" 		source="me:series" />
+				<groupitem name="issnum" 		source="me:issnum" />
+				<groupitem name="edipi" 		source="me:edipi"  />
+				<groupitem name="orgcat" 		source="me:orgcat"  />  Federal Agency
+				<groupitem name="orgid" 		source="me:orgid" />
+				<groupitem name="poassoc" 		source="me:poassoc"  />
+			</datagroup>
+
+			<datagroup name="fedid" type="calculated" process="concat" save="yes" multi="no" >
+				<groupitem	source="me:agency" />
+				<groupitem	source="me:system" />
+				<groupitem  source="me:crednum" />
+				<groupitem  source="me:series" />
+				<groupitem 	source="me:issnum" />
+			</datagroup>
+
+			<datagroup name="swgid" type="calculated" process="concat" save="yes" multi="no" >
+				<groupitem	value="0100000000000000" />
+				<groupitem	source="me:fedid" />
+			</datagroup>
+
+			<multipleitem>
+				<copyitem type="alias" source="me:fedid" prefix="FID" />
+				<copyitem type="alias" source="me:cuid" prefix="CUI"  />
+				<copyitem type="alias" source="me:seiwg" prefix="FAS" process="bin2hex" />
+				<copyitem type="alias" source="me:swgid" prefix="SWG" />
+			</multipleitem>
+
+		</targetRoot>
+
+		<targetObject name="card" objrdn="gcoid=card" objclass="gco" id="gcoid" modify="no">
+
+			<copyitem type="ref" name="cardpin" process="rand[100001,999999]" save="yes"/>
+
+			<copyitem type="attr" name="objtype" value="ref" />
+			<copyitem type="attr" name="upin" source="card.data:cardpin" altsource="me:cardpin" />
+			<copyitem type="xblk" tag="0031"  source="card.data:cardpin" altsource="me:cardpin" />
+			<copyitem type="xblk" tag="2055" source="card.data:cardpickup" />
+			<copyitem type="xblk" tag="2336" source="card.data:accesspin" />
+
+			<copyitem type="xblk" tag="2521" source="card.data:specdesignation" />
+			<copyitem type="xblk" tag="2305" source="card.data:clearance" />
+
+			<copyitem type="xblk" tag="003004" source="card.data:fulfillment" value="local" />
+			<copyitem type="xblk" tag="003005" value="local" />
+
+		</targetObject>
+
+		<targetObject name="chuid" objrdn="gcoid=A000000308.5fc102" objclass="gco" id="gcoid" format="stupid_ber;piv_der[5C035FC102,53]" datahash="SHA256" hashmap="5FC102">
+			<copyitem type="attr" name="fid" 		value="A000000308.5fc102" />
+			<copyitem type="attr" name="objtype" 	value="dat" />
+			<copyitem type="xblk" tag="30" source="me:seiwg" /><!-- FASCN -->
+			<copyitem type="xblk" tag="34" name="cuid" source="targetroot:objdn" process="getcid;xid2bin" /><!-- guid/cuid -->
+			<copyitem type="xblk" tag="35" name="expdate" source="me:expdate"/>
+		</targetObject>
+
+		<targetObject name="topoinfo" objrdn="gcoid=topoinfo" objclass="gco" id="gcoid">
+
+			<copyitem type="attr" name="objtype" 	value="ref"  />
+			<copyitem type="xblk" tag="002101" source="entity:first" /><!-- nameline1 -->
+			<copyitem type="xblk" tag="002102" source="entity:last" process="concat;allcaps" /><!-- nameline2 -->
+
+			<datagroup name="fullname" tag="99010b" attr="xblk" type="calculated" process="concat;allcaps" multi="no" >
+				<groupitem name="first" source="entity:first" />
+				<groupitem value=" " />
+				<groupitem name="mi" source="entity:mi"/>
+				<groupitem value=" " />
+				<groupitem name="last" source="entity:last"/>
+			</datagroup>
+
+			<datagroup name="firstandmi" tag="990104" attr="xblk" type="calculated" process="concat;allcaps" multi="no" >
+				<groupitem name="first" source="entity:first" />
+				<groupitem value=" " />
+				<groupitem name="mi" source="entity:mi" process="filter[NMN];filter[NMI];substr[0,1]" />
+			</datagroup>
+
+			<datagroup name="lastnamesuffix" tag="991014" attr="xblk" type="calculated" process="concat;allcaps" multi="no" >
+				<groupitem name="last" source="entity:last" />
+				<groupitem value=" " />
+				<groupitem name="suffix" source="entity:suffix" />
+			</datagroup>
+
+			<copyitem type="xblk" tag="99000a" source="me:crdnum" />
+			<copyitem type="xblk" tag="990101" source="me:crdnum" />
+			<copyitem type="xblk" tag="990102" source="me:expdate" process="mmyy" />
+			<copyitem type="xblk" tag="990202" source="me:expdate" process="yyyymmmdd" />
+			<copyitem type="xblk" tag="990302" source="me:expdate" process="mmmyyyy" />
+			<copyitem type="xblk" tag="990105" source="me:issdate" process="yyyymmmdd"/>
+
+			<copyitem type="xblk" tag="990006" source="entity:hght" />
+			<copyitem type="xblk" tag="990007" source="entity:hrclr" />
+			<copyitem type="xblk" tag="990008" source="entity:eyeclr" />
+
+			<copyitem type="xblk" tag="002039" source="me:seiwg" process="unpackseiwg" />
+			<copyitem type="xblk" tag="002073" source="me:agency" />
+			<copyitem type="xblk" tag="002074" source="me:system" />
+			<copyitem type="xblk" tag="002075" source="me:crednum" />
+			<copyitem type="xblk" tag="002040" source="me:fedid" />
+
+			<copyitem type="xblk" tag="990205" source="entity.entitybranchname:agency" />
+			<copyitem type="xblk" tag="002502" source="entity.general:affiliation" />
+			<copyitem type="xblk" tag="002521" source="card.data:specdesignation" />
+			<copyitem type="xblk" tag="002355" source="entity.general:agencyrole" />
+			<copyitem type="xblk" tag="002356" source="entity.general:agencytext" />
+			<copyitem type="xblk" tag="002353" source="entity.general:dutystation" />
+
+			<!-- Flags -->
+			<copyitem type="xblk" tag="990204" name="region" source="root:edn" process="getxid2[region]" />
+
+		</targetObject>
+
+		<targetObject name="objectlog" objrdn="sysid=logs" objclass="xsystem" id="sysid">
+			<datagroup name="objlog" attr="objectlog" type="calculated" process="concat">
+				<groupitem value="Object created at "/>
+				<groupitem process="timestamp" />
+			</datagroup>
+		</targetObject>
+
+	</dataTarget>
+
+</credentialConfig>

@@ -1,0 +1,5 @@
+#!/bin/sh
+APPNAME="authentx"
+echo ... Appointments Replication Log Management service starting ...
+exec 2>&1
+exec /usr/bin/php /authentx/app/https/${APPNAME}/appts2/replication/logmanager/bin/replappts_logmanage.php

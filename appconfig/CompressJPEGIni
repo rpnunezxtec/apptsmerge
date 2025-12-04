@@ -1,0 +1,5 @@
+userdn=cid=xphp,credentials=authentx,ounit=credentials,dc=authentx
+password=acfgtRoA87633472
+basedn=credentials=mso,credentials=authentx,ounit=credentials,dc=authentx
+host=localhost
+port=389

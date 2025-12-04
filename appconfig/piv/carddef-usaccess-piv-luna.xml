@@ -1,0 +1,420 @@
+<credentialConfig>
+
+	<metadata title="Authentx Card Defintion" />
+
+	<ConnectionSettings host="localhost" port="8389" userdn="" password="" />
+
+	<dataSource>
+
+		<authentxRoot>
+
+			<dataitem name="edn" attr="edn" multi="no" />
+			<dataitem name="cdn" attr="cdn" multi="yes" />
+			<!-- dataitem name="pdn" attr="pdn" multi="yes" /-->
+
+		</authentxRoot>
+
+		<dataObject name="root" link="root" objclass="credential">
+
+			<dataitem name="edn" attr="edn" multi="no" />
+
+		</dataObject>
+
+		<dataObject name="entity" link="edn" objclass="entity">
+
+			<dataitem name="dob" attr="dob" />
+			<dataitem name="eid" attr="eid" />
+			<dataitem name="eyeclr" attr="eyeclr" />
+			<dataitem name="first" attr="firstname"/>
+			<dataitem name="hght" attr="hght"/>
+			<dataitem name="hrclr" attr="hrclr"/>
+			<dataitem name="last" attr="lastname" />
+			<dataitem name="mi" attr="mi" />
+			<dataitem name="nationality" attr="nationality" />
+			<dataitem name="suffix" attr="suffix" />
+			<dataitem name="sponsor" attr="sponsor"/>
+			<dataitem name="ediident" attr="ediident"/>
+
+		</dataObject>
+
+		<dataObject name="entity.entitybranchname" link="edn" objrdn="sysid=entitybranchname" objclass="xsystem">
+
+			<dataitem name="agency" attr="sysval"/>
+
+		</dataObject>
+
+
+		<dataObject name="entity.general" link="edn" objrdn="gcoid=general" objclass="gco">
+
+			<dataitem name="data" attr="xblk" multi="yes" >
+				<xblkinfo
+					x002502="affiliation"
+					x002355="agencyrole"
+					x002356="agencytext"
+					/>
+			</dataitem>
+
+		</dataObject>
+
+		<dataObject name="entity.portrait_compressed" link="edn" objrdn="bioid=portrait_compressed" objclass="biometric">
+			<dataitem name="image" attr="jpgpic" multi="no" > </dataitem>
+		</dataObject>
+
+
+		<dataObject name="primary_fp" link="edn" objrdn="bioid=PIV_Primary" objclass="biometric">
+				<dataitem name="template" attr="xblk" type="notag" multi="no" >	</dataitem>
+				<dataitem name="r_nfiq"  attr="nfiq" />
+		</dataObject>
+
+		<dataObject name="secondary_fp" link="edn" objrdn="bioid=PIV_Secondary" objclass="biometric">
+				<dataitem name="template" attr="xblk" type="notag" multi="no" >	</dataitem>
+				<dataitem name="l_nfiq" attr="nfiq" />
+		</dataObject>
+
+
+		<dataObject name="cardCredential.icccin" link="edn" objrdn="sysid=icccin,procid=token,ounit=piv" objclass="gco" modify="no">
+			<dataitem name="issidssn" attr="sysval" />
+		</dataObject>
+
+		<dataObject name="card.data" link="edn" objrdn="gcoid=token,procid=token,ounit=piv" objclass="gco" modify="no">
+
+			<dataitem name="cardpin" attr="upin" />
+			<dataitem name="data" attr="xblk" multi="yes" >
+				<!-- x000031="cardpin" old location -->
+				<xblkinfo
+					x0020c3="upn"
+					x002336="accesspin"
+					x000053="expdate"
+					x000052="issdate"
+					x00207b="changedate"
+					x002055="cardpickup"
+					x002081="lawenfrcment"
+					x002082="propertypass"
+					x002083="childcare"
+					x0020c5="emergencyresp"
+					x002335="issueby"
+					x002521="specdesignation"
+					x000054="cardtype"
+					x002301="clearance"
+					x0020c6="ctopo" />
+
+					<!--
+					x0020c3="upn"
+					x002073="agencycode"
+					x002074="systemcode"
+					x002075="crednum"
+					x002076="credseries"
+					x002311="btype"
+					x002341="reason"
+					x002377="ici"
+					-->
+			</dataitem>
+
+		</dataObject>
+
+	</dataSource>
+
+	<dataTarget format="credential_xblk" return="dn">
+
+		<authentxRoot>
+
+			<dataitem name="cdn" attr="cdn" multi="yes" />
+
+		</authentxRoot>
+
+			<!--
+ 			IF action=update, the targetRoot is built, but not actually updated.  Allows save=yes
+			to be used to capture an existing value.
+			-->
+
+		<targetRoot link="cdn" id="cid" objclass="credential" >
+
+			<copyitem type="attr" name="issby" source="entity:sponsor" />
+			<copyitem type="attr" name="ctype" value="" />
+			<copyitem type="attr" name="desc" value="Department of Homeland Security PIV Card" />
+			<copyitem type="attr" name="rem" value="version=2" />
+			<copyitem type="attr" name="status"	value="pivPending" />
+			<copyitem type="attr" name="action"	value="PrintEncode" /> <!-- or Export -->
+
+			<copyitem type="ref" name="defaultexpdate" process="expdate[,,1094]" save="yes" />
+			<copyitem type="ref" name="expdate" source="card.data:expdate" altsource="me:defaultexpdate" process="substr[0,8]" save="yes" />
+			<copyitem type="ref" name="issdate" process="datestamp" save="yes" />
+
+			<copyitem type="attr" name="expdate" source="me:expdate" process="ldapdate" />
+			<copyitem type="attr" name="issdate" source="me:issdate" process="ldapdate" />
+
+			<datagroup name="objlog" attr="objectlog" type="calculated" process="concat">
+				<groupitem value="object created by "/>
+				<groupitem source="entity:sponsor" />
+				<groupitem value=" at " />
+				<groupitem process="timestamp" />
+			</datagroup>
+
+
+			<copyitem type="attr" name="cardtopology" source="card.data:ctopo" altsource="cardCredential:ctopo"/>
+			<copyitem type="attr" name="ctype" source="card.data:cardtype" altsource="cardCredential:cardtype"/>
+			<copyitem type="attr" name="cuid" source="me:targetid" save="yes" />
+
+			<!--
+			Get upn value from entity object and token.  If entity-upn not present, try token-upn, else fabricate.
+			Note: If the source value is empty, it is not placed in the attr array, otherwise it overwrites
+
+			Deprecated.  The token-object-upn is updated from the entity value when the cert request is generated.
+			-->
+
+			<copyitem type="ref" name="crednum" source="targetroot:objdn" process="getcid;getcrednum;substr[-6]" save="yes" />
+			<copyitem type="ref" name="agency" 	value="7000" save="yes" /> <!-- DHS -->
+			<copyitem type="ref" name="system" 	value="0001" save="yes" />
+			<copyitem type="ref" name="series" 	value="0"  save="yes" />
+			<copyitem type="ref" name="issnum" 	value="0"  save="yes" />
+
+			<datagroup name="seiwg" type="calculated" process="calcseiwg" multi="no" save="yes"><!-- FASCN -->
+				<groupitem name="agency" 		source="me:agency"/>
+				<groupitem name="system" 		source="me:system"/>
+				<groupitem name="credential"	source="me:crednum" />
+				<groupitem name="series" 		source="me:series" />
+				<groupitem name="issnum" 		source="me:issnum" />
+				<groupitem name="ssn" 			value="000000000" />
+				<groupitem name="reserved" 		value="0000000" />
+			</datagroup>
+
+			<datagroup name="fedid" type="calculated" process="concat" save="yes" multi="no" >
+				<groupitem	source="me:agency" />
+				<groupitem	source="me:system" />
+				<groupitem  source="me:crednum" />
+				<groupitem  source="me:series" />
+				<groupitem 	source="me:issnum" />
+			</datagroup>
+
+			<multipleitem>
+				<copyitem type="alias" source="me:fedid" prefix="FID" />
+				<copyitem type="alias" source="me:cuid" prefix="CUI"  />
+				<copyitem type="alias" source="me:seiwg" prefix="FAS" process="bin2hex" />
+			</multipleitem>
+
+		</targetRoot>
+
+		<targetObject name="card" objrdn="gcoid=card" objclass="gco" id="gcoid" modify="no">
+
+			<copyitem type="ref" name="cardpin" process="rand[1001,9999]" save="yes"/>
+
+			<copyitem type="attr" name="objtype" value="ref" />
+			<copyitem type="attr" name="upin" source="card.data:cardpin" altsource="me:cardpin" />
+			<copyitem type="xblk" tag="0031"  source="card.data:cardpin" altsource="me:cardpin" />
+			<copyitem type="xblk" tag="2055" source="card.data:cardpickup" />
+			<copyitem type="xblk" tag="2336" source="card.data:accesspin" />
+
+			<copyitem type="xblk" tag="2081" source="card.data:lawenfrcment" default="No" />
+			<copyitem type="xblk" tag="2082" source="card.data:propertypass" default="No" />
+			<copyitem type="xblk" tag="2083" source="card.data:childcare" default="No" />
+			<copyitem type="xblk" tag="20c5" source="card.data:emergencyresp" default="No" />
+			<copyitem type="xblk" tag="2521" source="card.data:specdesignation" />
+			<copyitem type="xblk" tag="2305" source="card.data:clearance" />
+
+		</targetObject>
+
+
+		<targetObject name="cardcap" objrdn="gcoid=A000000308.5fc107" objclass="gco" id="gcoid" format="stupid_ber;piv_der[5C035FC107,53]" datahash="SHA256" hashmap="5FC107">
+
+			<copyitem type="attr" name="fid" 		value="A000000308.5FC107" />
+			<copyitem type="attr" name="objtype" 	value="dat" />
+
+			<datagroup name="cardid" tag="f0" attr="xblk" type="calculated" process="concat;hex2bin" >
+				<groupitem name="rid" value="A000000308" />
+				<groupitem name="cuid" source="me:cuid" />
+			</datagroup>
+
+			<copyitem type="xblk" tag="f1" name="cccver" 	value="21" process="hex2bin"  />
+			<copyitem type="xblk" tag="f2" name="gramver" 	value="21" process="hex2bin" />
+
+			<datagroup  name="appurl" tag="f3" attr="xblk" type="calculated" process="concat;hex2bin" multi="no" >
+				<groupitem value="F310A00000030801C1070000000000000000"  />
+				<groupitem value="F310A00000030801C1020000000000000000"  />
+				<groupitem value="F310A00000030801C1030000000000000000"  />
+				<groupitem value="F310A00000030801C1090000000000000000"  />
+				<!-- <groupitem value="F310A00000030801C1080000000000000000" /> -->
+				<groupitem value="F310A00000030801C1060000000000000000"  />
+				<groupitem value="F310A00000030801C1050000000000000000"  />
+			</datagroup>
+
+			<copyitem type="xblk" tag="f4" name="pkcs15flag" 	value="00" process="hex2bin" />
+			<copyitem type="xblk" tag="f5" name="dataver" 	value="10"  process="hex2bin" />
+
+			<copyitem type="xblk" tag="f6" name="acrtable" 	value="0000000000000000000000000000000000" process="hex2bin" />
+			<copyitem type="xblk" tag="f7" name="cardapdu" 	value="" />
+			<copyitem type="xblk" tag="fa" name="rediflag" 	value="" />
+			<copyitem type="xblk" tag="fb" name="cardtuples" 	value="" />
+			<copyitem type="xblk" tag="fc" name="statustuples" 	value="" />
+			<copyitem type="xblk" tag="fd" name="nextcc" 	value="" />
+
+		</targetObject>
+
+		<targetObject name="chuid" objrdn="gcoid=A000000308.5fc102" objclass="gco" id="gcoid" format="stupid_ber;piv_der[5C035FC102,53]" datahash="SHA256" hashmap="5FC102">
+
+			<copyitem type="attr" name="fid" 		value="A000000308.5fc102" />
+			<copyitem type="attr" name="objtype" 	value="dat" />
+
+			<copyitem type="xblk" tag="30" source="me:seiwg" /><!-- FASCN -->
+			<copyitem type="xblk" tag="34" name="cuid" source="targetroot:objdn" process="getcid;xid2bin" /><!-- guid/cuid -->
+			<copyitem type="xblk" tag="35" name="expdate" source="me:expdate"/>
+
+			<!-- -->
+			<datagroup name="chuidsdo" tag="3e" attr="xblk" type="calculated" process="stupid_ber[,addtag];chuid_sig[luna]" multi="no" >
+				<groupitem  name="30" source="me:seiwg" />
+				<groupitem  name="34" source="me:cuid" process="xid2bin" />
+				<groupitem  name="35" source="me:expdate" />
+			</datagroup>
+
+		</targetObject>
+
+		<targetObject name="photo" objrdn="gcoid=A000000308.5fc108" objclass="gco" id="gcoid" format="stupid_ber;piv_der[5C035FC108,53]" datahash="SHA256" hashmap="5FC108" hashmode="notagfe">
+
+			<copyitem type="attr" name="fid" value="A000000308.5fc108" />
+			<copyitem type="attr" name="sfid" value="01" />
+			<copyitem type="attr" name="objtype" value="dat" />
+
+			<datagroup name="face-cbeff" tag="bc" attr="xblk" type="calculated" process="cbeff_face[+sig,,luna]" multi="no" >
+				<groupitem name="image" source="entity.portrait_compressed:image" />
+				<groupitem name="creator_name" value="XTEC PIV/INCITS" />
+				<groupitem name="fascn" source="me:seiwg" />
+				<groupitem name="lenSB" value="798" /> <!-- 758 if from Entrust; 708 for default; 798 for DHS/Luna -->
+			</datagroup>
+
+		</targetObject>
+
+		<targetObject name="fingerprints_piv" objrdn="gcoid=A000000308.5fc103" objclass="gco" id="gcoid" format="stupid_ber;piv_der[5C035FC103,53]"  datahash="SHA256" hashmap="5FC103" hashmode="notagfe">
+
+			<copyitem type="attr" name="fid" value="A000000308.5fc103" />
+			<copyitem type="attr" name="objtype" value="dat" />
+
+			<datagroup name="fingerprint-cbeff" tag="bc" attr="xblk" type="calculated" process="cbeff_finger[+sig,,luna]" multi="no" >
+				<groupitem name="r_print" source="primary_fp:template" />
+				<groupitem name="l_print" source="secondary_fp:template" />
+				<groupitem name="creator_name" value="XTEC PIV/INCITS" />
+				<groupitem name="fascn" source="me:seiwg" />
+				<groupitem name="lenSB" value="798" /> <!-- 758 if from Entrust; 708 for default; 798 for DHS/Luna -->
+				<groupitem name="r_nfiq" source="primary_fp:r_nfiq"  default="1" />
+				<groupitem name="l_nfiq" source="secondary_fp:l_nfiq"  default="1" />
+			</datagroup>
+
+		</targetObject>
+
+		<targetObject name="printedinfo" objrdn="gcoid=A000000308.5fc109" objclass="gco" id="gcoid" format="stupid_ber;piv_der[5C035FC109,53]" datahash="SHA256" hashmap="5FC109" >
+
+			<copyitem type="attr" name="fid" 		value="A000000308.5fc109" />
+			<copyitem type="attr" name="objtype" 	value="dat" />
+
+			<datagroup name="fullname" tag="01" attr="xblk" type="calculated" process="concat;allcaps" multi="no" >
+				<groupitem name="first" source="entity:first" />
+				<groupitem value=" " />
+				<groupitem name="mi" source="entity:mi"/>
+				<groupitem value=" " />
+				<groupitem name="last" source="entity:last"/>
+			</datagroup>
+
+			<copyitem type="xblk" tag="02" source="entity.general:affiliation" />
+			<!--copyitem type="xblk" tag="03" source="entity.entitybranchname:agency" process="substr[0,20]"/ -->
+			<copyitem type="xblk" tag="04" source="me:expdate" process="yyyymmmdd" />
+			<copyitem type="xblk" tag="05" source="cardCredential.icccin:issidssn" process="substr[-10]" default="1900-00075" />
+			<copyitem type="xblk" tag="06" source="cardCredential.icccin:issidssn" process="substr[0,15]" default="05179853DHS001-" />
+
+		</targetObject>
+
+		<targetObject name="secobj" objrdn="gcoid=A000000308.5fc106" objclass="gco" id="gcoid" format="stupid_ber;piv_der[5C035FC106,53]" >
+
+			<copyitem type="attr" name="fid" 		value="gcoid=A000000308.5fc106" />
+			<copyitem type="attr" name="objtype" 	value="dat" />
+
+			<datagroup name="hashmap" tag="ba" attr="xblk" type="calculated" process="concat" multi="no" >
+				<groupitem value="053001" process="hex2bin" /> <!-- Printed Info 5FC109-->
+				<!--
+				<groupitem value="01DB00" process="hex2bin" /> Card Capability 5FC107
+				<groupitem value="023000" process="hex2bin" /> CHUID 5FC102
+				<groupitem value="030101" process="hex2bin" /> PIV Cert 5FC105
+				<groupitem value="046010" process="hex2bin" /> Fingerprint 5FC103
+				<groupitem value="066030" process="hex2bin" /> Facial Image 5FC108
+
+				<groupitem value="080100" process="hex2bin" />  Digital Sig Cert 5FC10A
+				<groupitem value="090102" process="hex2bin" />  Key Mgmt Cert 5FC10B
+				<groupitem value="0A0500" process="hex2bin" />  Card Auth Cert 5FC101
+				-->
+			</datagroup>
+
+			<datagroup name="secrity_obj" tag="bb" attr="xblk" type="calculated" process="pkcs_secobj[,luna]" multi="no" >
+				<groupitem name="5" source="me:5FC109" />
+			</datagroup>
+
+		</targetObject>
+
+		<targetObject name="hashholder" objrdn="gcoid=sohash" objclass="gco" id="gcoid">
+
+			<copyitem type="xblk" tag="01" source="me:5FC107" /><!-- Card Capability 5FC107-->
+			<copyitem type="xblk" tag="02" source="me:5FC102" /><!-- CHUID 5FC102-->
+			<copyitem type="xblk" tag="04" source="me:5FC103" /><!-- Fingerprint 5FC103-->
+			<copyitem type="xblk" tag="06" source="me:5FC109" /><!-- Printed Info 5FC109-->
+			<copyitem type="xblk" tag="07" source="me:5FC108" /><!-- Facial Image 5FC108-->
+
+		</targetObject>
+
+
+		<targetObject name="topoinfo" objrdn="gcoid=topoinfo" objclass="gco" id="gcoid">
+
+			<copyitem type="attr" name="objtype" 	value="ref"  />
+			<copyitem type="xblk" tag="002101" source="entity:first" /><!-- nameline1 -->
+			<copyitem type="xblk" tag="002102" source="entity:last" process="concat;allcaps" /><!-- nameline2 -->
+
+			<datagroup name="fullname" tag="99010b" attr="xblk" type="calculated" process="concat;allcaps" multi="no" >
+				<groupitem name="first" source="entity:first" />
+				<groupitem value=" " />
+				<groupitem name="mi" source="entity:mi"/>
+				<groupitem value=" " />
+				<groupitem name="last" source="entity:last"/>
+			</datagroup>
+
+			<datagroup name="firstandmi" tag="990104" attr="xblk" type="calculated" process="concat;allcaps" multi="no" >
+				<groupitem name="first" source="entity:first" />
+				<groupitem value=" " />
+				<groupitem name="mi" source="entity:mi" process="filter[nmn];substr[0,1]" />
+			</datagroup>
+
+			<copyitem type="xblk" tag="99000a" source="me:crdnum" />
+			<copyitem type="xblk" tag="990101" source="me:crdnum" />
+			<copyitem type="xblk" tag="990102" source="me:expdate" process="mmyy" />
+			<copyitem type="xblk" tag="990202" source="me:expdate" process="yyyymmmdd" />
+			<copyitem type="xblk" tag="990302" source="me:expdate" process="mmmyyyy" />
+			<copyitem type="xblk" tag="990105" source="me:issdate" process="yyyymmmdd"/>
+
+			<copyitem type="xblk" tag="990006" source="entity:hght" />
+			<copyitem type="xblk" tag="990007" source="entity:hrclr" />
+			<copyitem type="xblk" tag="990008" source="entity:eyeclr" />
+
+			<copyitem type="xblk" tag="002039" source="me:seiwg" process="unpackseiwg" />
+			<copyitem type="xblk" tag="002073" source="me:agency" />
+			<copyitem type="xblk" tag="002074" source="me:system" />
+			<copyitem type="xblk" tag="002075" source="me:crednum" />
+			<copyitem type="xblk" tag="002040" source="me:fedid" />
+
+			<copyitem type="xblk" tag="990205" source="entity.entitybranchname:agency" />
+			<copyitem type="xblk" tag="002502" source="entity.general:affiliation" />
+			<copyitem type="xblk" tag="002521" source="card.data:specdesignation" />
+			<copyitem type="xblk" tag="002355" source="entity.general:agencyrole" />
+			<copyitem type="xblk" tag="002356" source="entity.general:agencytext" />
+
+			<!-- Flags -->
+			<copyitem type="xblk" tag="990204" name="region" source="root:edn" process="getxid2[region]" />
+			<copyitem type="xblk" tag="002081" source="card.data:lawenfrcment" default="N" process="substr[0,1]"/>
+			<copyitem type="xblk" tag="002082" source="card.data:propertypass" default="N" process="substr[0,1]"/>
+			<copyitem type="xblk" tag="002083" source="card.data:childcare" default="N" process="substr[0,1]"/>
+			<copyitem type="xblk" tag="0020c5" source="card.data:emergencyresp" default="N" process="substr[0,1]"/>
+
+		</targetObject>
+
+		<targetObject name="changedate" objrdn="sysid=changedate" objclass="xsystem" id="sysid">
+
+			<copyitem type="attr" name="sysval" process="datestamp" />
+
+		</targetObject>
+
+	</dataTarget>
+
+</credentialConfig>

@@ -1,0 +1,51 @@
+#!/bin/sh
+
+PATH=/authentx/app/https/authentx/appointments/reminder/bin:/bin:/usr/bin:/usr/local/bin:/usr/local/sbin
+export PATH
+
+case "$1" in
+  start)
+		echo "* Starting appointment reminder"
+	    if svok /service/appt_ax; then
+    		svc -u /service/appt_ax /service/appt_ax/log
+    	else
+    		echo " ... appointment reminder supervise not running"
+    	fi
+
+    	if [ -d /var/lock/subsys ]; then
+    		touch /var/lock/subsys/appt_ax
+    	fi
+    ;;
+  stop)
+	    echo "* Stopping appointment reminder"
+   		svc -d /service/appt_ax /service/appt_ax/log
+
+   		if [ -f /var/lock/subsys/appt_ax ]; then
+    		rm /var/lock/subsys/appt_ax
+    	fi
+    ;;
+  stat)
+	    svstat /service/appt_ax
+	    svstat /service/appt_ax/log
+    ;;
+  restart)
+	    echo "* Stopping appointment reminder"
+		svc -d /service/appt_ax /service/appt_ax/log
+	    echo "* Restarting appointment reminder"
+		svc -u /service/appt_ax /service/appt_ax/log
+    ;;
+  help)
+    cat <<HELP
+   stop: stops appointment reminder
+  start: starts appointment reminder
+   stat: displays status of appointment reminder
+restart: stops and restarts appointment reminder
+HELP
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart|stat|help}"
+    exit 1
+    ;;
+esac
+
+exit 0

@@ -1,0 +1,52 @@
+#!/bin/sh
+
+APPNAME="authentx"
+PATH="/authentx/app/https/${APPNAME}/appts2/replication/consumer/bin:/bin:/usr/bin:/usr/local/bin:/usr/local/sbin"
+export PATH
+
+case "$1" in
+  start)
+		echo "* Starting ${APPNAME} replication consumer"
+	    if svok /service/repl-appts2_${APPNAME}; then
+    		svc -u /service/repl-appts2_${APPNAME} /service/repl-appts2_${APPNAME}/log
+    	else
+    		echo " ... ${APPNAME} consumer supervise not running"
+    	fi
+
+    	if [ -d /srv/appts2replication ]; then
+    		touch /srv/appts2replication/repl-apps2_${APPNAME}
+    	fi
+    ;;
+  stop)
+	    echo "* Stopping ${APPNAME} replication consumer"
+   		svc -d /service/repl-appts2_${APPNAME} /service/repl-appts2_${APPNAME}/log
+
+   		if [ -f /srv/appts2replication/repl-appts2_${APPNAME} ]; then
+    		rm /srv/appts2replication/repl-appts2_${APPNAME}
+    	fi
+    ;;
+  stat)
+	    svstat /service/repl-appts2_${APPNAME}
+	    svstat /service/repl-appts2_${APPNAME}/log
+    ;;
+  restart)
+	    echo "* Stopping ${APPNAME} replication consumer"
+		svc -d /service/repl-appts2_${APPNAME} /service/repl-appts2_${APPNAME}/log
+	    echo "* Restarting ${APPNAME} replication consumer"
+		svc -u /service/repl-appts2_${APPNAME} /service/repl-appts2_${APPNAME}/log
+    ;;
+  help)
+    cat <<HELP
+   stop: stops ${APPNAME} replication consumer
+  start: starts ${APPNAME} replication consumer
+   stat: displays status of ${APPNAME} replication consumer
+restart: stops and restarts ${APPNAME} replication consumer
+HELP
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart|stat|help}"
+    exit 1
+    ;;
+esac
+
+exit 0

@@ -1,0 +1,168 @@
+.filetable
+{
+	padding: 1px;
+}
+
+#authlist_header 
+{
+	color: #4060a3;
+	background-color: #d0d0d0;
+	font-weight: bold;
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-size: 11px;
+	text-align: left;
+}
+
+#authlist_row
+{
+	font-weight: normal;
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-size: 11px;
+	text-align: left;
+	color: #000000;
+}
+
+#authlist_row a
+{
+	color: #6285CA;
+	text-decoration: none;
+}
+
+#authlist_row a:hover
+{
+	color: #6285CA;
+	text-decoration: underline;
+}
+
+.authlist_normal
+{
+	background-color: #ffffff;
+}
+
+.authlist_nowrite
+{
+	background-color: #ffd0d0;
+}
+
+.authlist_cfgmissing
+{
+	background-color: #ffffd0;
+}
+
+.authlist_newlist
+{
+	background-color: #e0e0e0;
+}
+
+.listtable
+{
+	padding: 1px;
+}
+
+#fieldlist_header 
+{
+	color: #000000;
+	background-color: #ffffff;
+	font-weight: bold;
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-size: 11px;
+	text-align: left;
+}
+
+#fieldlist_header input
+{
+	color: #000000;
+	background-color: #ffffff;
+	font-weight: bold;
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-size: 11px;
+	text-align: left;
+}
+
+.fieldcell_normal
+{
+	background-color: #ffffff;
+	word-wrap: break-word;
+}
+
+.fieldcell_missing
+{
+	background-color: #ffd0d0;
+}
+
+.odd 
+{
+	background-color: #E9F0FF;
+}
+
+.even
+{
+	background-color:#FFFFFF;
+}
+
+.level0
+{
+	background-color: #a5ebff;
+	font-weight: normal;
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-size: 11px;
+	text-align: left;
+	color: #000000;
+}
+
+.level1
+{
+	background-color: #9cfdc3;
+	font-weight: normal;
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-size: 11px;
+	text-align: left;
+	color: #000000;
+}
+
+.level2
+{
+	background-color: #fafd9c;
+	font-weight: normal;
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-size: 11px;
+	text-align: left;
+	color: #000000;
+}
+
+.level3
+{
+	background-color: #fd9c9e;
+	font-weight: normal;
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-size: 11px;
+	text-align: left;
+	color: #000000;
+}
+
+.level4
+{
+	background-color: #fd9cfc;
+	font-weight: normal;
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-size: 11px;
+	text-align: left;
+	color: #000000;
+}
+
+.scroll
+{
+	display:block;
+    border: 1px solid gray;
+    padding:5px;
+    margin-top:5px;
+    width:300px;
+    height:200px;
+    overflow:auto;
+}
+
+
+
+
+
+

@@ -1,0 +1,296 @@
+form {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background-color: #c5dffa;
+}
+
+body {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  flex-direction: column;
+  padding-top: 2rem;
+  background-color: #00476b;
+}
+
+h1 {
+  max-width: 300px;
+  margin: 2rem auto 1rem;
+  text-align: center;
+  font-size: 4rem;
+  padding-bottom: 1rem;
+}
+
+/* FORM STYLING */
+.form_group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form_label {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.form_input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 300px;
+  box-sizing: border-box;
+}
+
+.data-review {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 4px;
+  background-color: #c5dffa;
+  text-align: left;
+  margin: 0 auto 1.5rem;
+  width: 50%;
+}
+.data-row {
+  margin-bottom: 0.5rem;
+}
+.data-label {
+  font-weight: bold;
+}
+
+/* CHECKBOX STYLING */
+.form_checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form_checkbox {
+  display: flex;
+  align-items: center;
+}
+.form_checkbox input {
+  margin-right: 0.5rem;
+}
+
+/* BUTTON STYLING */
+.form_button {
+  appearance: button;
+  backface-visibility: hidden;
+  background: #007bff;
+  border-radius: 6px;
+  border-width: 0;
+  box-shadow: rgba(50, 50, 93, 0.1) 0 0 0 1px inset,
+    rgba(50, 50, 93, 0.1) 0 2px 5px 0, rgba(0, 0, 0, 0.07) 0 1px 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue",
+    Ubuntu, sans-serif;
+  font-size: 1.3rem;
+  height: 44px;
+  line-height: 1.15;
+  margin: 12px 0 0;
+  outline: none;
+  overflow: hidden;
+  padding: 0 25px;
+  position: relative;
+  align-self: flex-start;
+  text-align: center;
+  text-transform: none;
+  transform: translateZ(0);
+  transition: all 0.2s, box-shadow 0.08s ease-in;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 100%;
+}
+
+#downloadBtn {
+  background: #249601;
+}
+
+#downloadBtn:hover {
+  background: #1a7000;
+}
+
+.form_button:hover {
+  background: #003a77;
+}
+
+.form_button:disabled {
+  cursor: default;
+}
+
+.form_button:focus {
+  box-shadow: rgba(50, 50, 93, 0.1) 0 0 0 1px inset,
+    rgba(50, 50, 93, 0.2) 0 6px 15px 0, rgba(0, 0, 0, 0.1) 0 2px 2px 0,
+    rgba(50, 151, 211, 0.3) 0 0 0 4px;
+}
+
+.clear-select-group {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  gap: 2rem;
+}
+
+.clear-select-group button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.clear-select-group button:hover {
+  transform: scale(1.1);
+}
+
+.data-review .data-row {
+  margin-bottom: 1em;
+}
+.review-list {
+  max-height: 150px;
+  overflow-y: auto;
+  margin: 0.5em 0 1em 1em;
+  padding-left: 1.2em;
+}
+.review-list li {
+  line-height: 1.4;
+  margin-bottom: 0.2em;
+}
+details {
+  margin-bottom: 1em;
+  background: #fff;
+  border-radius: 4px;
+  padding: 0.5em;
+}
+details summary {
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+}
+
+/* spacing */
+.data-review .data-row {
+  margin-bottom: 1em;
+}
+
+#dataReview {
+  min-width: 300px;
+  max-width: 400px;
+  width: 40%;
+  min-height: 200px;
+  max-height: 80vh;
+  height: auto;
+  resize: both;
+  overflow: auto;
+  background: #aed4ff;
+  padding: 1.5em;
+  border-radius: 12px;
+  margin: 0 auto 1.5rem;
+  box-sizing: border-box;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* nested bullet lists */
+.review-list {
+  max-height: 240px;
+  overflow-y: auto;
+  margin: 0.5em 0 1em 1em;
+  padding-left: 1.2em;
+}
+/* also center the Download button */
+.buttons {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+/* collapsible container */
+details {
+  margin-bottom: 1em;
+  background: #fff;
+  border-radius: 4px;
+  padding: 0.5em;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+details summary {
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+  padding: 0.2em 0;
+}
+
+#imagePreview img {
+  margin: 0.5rem;
+  max-width: 200px;
+  max-height: 200px;
+  object-fit: contain;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.form_group {
+  margin-bottom: 1.5rem;
+}
+.form_label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+.buttons {
+  text-align: center;
+}
+#nextBtn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  background: #388e3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form_group {
+  margin-bottom: 1.5rem;
+}
+.form_label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+.preview img {
+  margin: 0.5rem;
+  max-width: 150px;
+  max-height: 150px;
+  object-fit: contain;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.buttons {
+  text-align: center;
+}
+#nextBtn {
+  padding: 0.75rem 1.5rem;
+  background: #388e3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

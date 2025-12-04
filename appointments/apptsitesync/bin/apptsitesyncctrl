@@ -1,0 +1,51 @@
+#!/bin/sh
+
+PATH=/authentx/app/https/dhs/appointments/apptsitesync/bin:/bin:/usr/bin:/usr/local/bin:/usr/local/sbin
+export PATH
+
+case "$1" in
+  start)
+		echo "* Starting appointment site sync"
+	    if svok /service/apptsitesync_dhs; then
+    		svc -u /service/apptsitesync_dhs /service/apptsitesync_dhs/log
+    	else
+    		echo " ... appointment site sync supervise not running"
+    	fi
+
+    	if [ -d /srv/appt ]; then
+    		touch /srv/appt/apptsitesync_dhs.lock
+    	fi
+    ;;
+  stop)
+	    echo "* Stopping appointment site sync"
+   		svc -d /service/apptsitesync_dhs /service/apptsitesync_dhs/log
+
+   		if [ -f /srv/appt/apptsitesync_dhs.lock ]; then
+    		rm /srv/appt/apptsitesync_dhs.lock
+    	fi
+    ;;
+  stat)
+	    svstat /service/apptsitesync_dhs
+	    svstat /service/apptsitesync_dhs/log
+    ;;
+  restart)
+	    echo "* Stopping appointment site sync"
+		svc -d /service/apptsitesync_dhs /service/apptsitesync_dhs/log
+	    echo "* Restarting appointment site sync"
+		svc -u /service/apptsitesync_dhs /service/apptsitesync_dhs/log
+    ;;
+  help)
+    cat <<HELP
+   stop: stops appointment site sync
+  start: starts appointment site sync
+   stat: displays status of appointment site sync
+restart: stops and restarts appointment site sync
+HELP
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart|stat|help}"
+    exit 1
+    ;;
+esac
+
+exit 0

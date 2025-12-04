@@ -1,0 +1,145 @@
+td .htnull
+{
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-size: 12px;
+	font-weight: 600;
+	color: #808080;
+	text-align: center;
+	border: 1px solid #000000;
+	background-color: #c0c0c0;
+	margin: 0px;
+}
+
+td .htpending
+{
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-size: 12px;
+	font-weight: 600;
+	color: #000000;
+	text-align: center;
+	border: 1px solid #000000;
+	background-color: #d0d0d0;
+	margin: 0px;
+}
+
+td .htpass
+{
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-size: 12px;
+	font-weight: 600;
+	color: #000000;
+	text-align: center;
+	border: 1px solid #000000;
+	background-color: #40e000;
+	margin: 0px;
+}
+
+td .htfail
+{
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-size: 12px;
+	font-weight: 600;
+	color: #ffffff;
+	text-align: center;
+	border: 1px solid #000000;
+	background-color: #e04020;
+	margin: 0px;
+}
+
+td .htsubmitted
+{
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-size: 12px;
+	font-weight: 600;
+	color: #000000;
+	text-align: center;
+	border: 1px solid #000000;
+	background-color: #a0f0a0;
+	margin: 0px;
+}
+
+td .htwarn
+{
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-size: 12px;
+	font-weight: 600;
+	color: #ff0000;
+	text-align: center;
+	border: 1px solid #000000;
+	background-color: #ffe91f;
+	margin: 0px;
+}
+
+td .httoken
+{
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-size: 12px;
+	font-weight: 600;
+	color: #000000;
+	text-align: center;
+	border: 1px solid #000000;
+	background-color: #ffffaa;
+	margin: 0px;
+}
+
+td .httlc
+{
+	border-top: 1px solid #000000;
+	border-left: 1px solid #000000;
+	background-color: #f0f0f0;
+}
+
+td .httop
+{
+	border-top: 1px solid #000000;
+	background-color: #f0f0f0;
+}
+
+td .httrc
+{
+	border-top: 1px solid #000000;
+	border-right: 1px solid #000000;
+	background-color: #f0f0f0;
+}
+
+td .htlhs
+{
+	border-left: 1px solid #000000;
+	background-color: #f0f0f0;
+}
+
+td .htrhs
+{
+	border-right: 1px solid #000000;
+	background-color: #f0f0f0;
+}
+
+td .htblc
+{
+	border-bottom: 1px solid #000000;
+	border-left: 1px solid #000000;
+	background-color: #f0f0f0;
+}
+
+td .htblank
+{
+	background-color: #f0f0f0;
+}
+
+td .htbottom
+{
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-size: 12px;
+	font-weight: 600;
+	color: #000000;
+	text-align: center;
+	border-bottom: 1px solid #000000;
+	background-color: #f0f0f0;
+}
+
+td .htbrc
+{
+	border-bottom: 1px solid #000000;
+	border-right: 1px solid #000000;
+	background-color: #f0f0f0;
+}

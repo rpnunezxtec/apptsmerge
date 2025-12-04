@@ -1,0 +1,173 @@
+<credentialConfig>
+
+	<metadata title="Authentx Card Definition Add/Update signed objects" />
+	
+	This card definition is intended to be used in conjunction with card update.
+	The configuration here adds the remainder objects and re-signed when the token 
+	is encoded.
+
+	<ConnectionSettings host="localhost" port="8389" userdn="" password="" />
+
+	<dataSource>
+
+		<authentxRoot>
+			<dataitem name="edn" attr="edn" multi="no" />
+			<dataitem name="cdn" attr="cdn" multi="yes" />
+		</authentxRoot>
+
+
+		<dataObject name="entity.portrait_compressed" link="edn" objrdn="bioid=portrait_compressed" objclass="biometric">
+			<dataitem name="image" attr="jpgpic" multi="no" > </dataitem>
+		</dataObject>
+
+
+		<dataObject name="primary_fp" link="edn" objrdn="bioid=PIV_Primary" objclass="biometric">
+				<dataitem name="template" attr="xblk" type="notag" multi="no" >	</dataitem>
+				<dataitem name="r_nfiq"  attr="nfiq" />
+		</dataObject>
+
+
+		<dataObject name="secondary_fp" link="edn" objrdn="bioid=PIV_Secondary" objclass="biometric">
+				<dataitem name="template" attr="xblk" type="notag" multi="no" >	</dataitem>
+				<dataitem name="l_nfiq" attr="nfiq" />
+		</dataObject>
+
+
+		<dataObject name="chuid" link="cdn" objrdn="gcoid=A000000308.5fc102" objclass="gco" select="#cid" >
+				<dataitem name="data" attr="xblk" multi="yes">
+					<xblkinfo
+						x000030="fascn"
+						x000034="guid"
+						x000035="expdate" />
+				</dataitem>
+		</dataObject>
+
+		<dataObject name="printedinfo" link="cdn" objrdn="gcoid=A000000308.5fc109" objclass="gco" select="#cid" >
+			<dataitem name="data" attr="xblk" multi="yes">
+				<xblkinfo
+					x000001="fullname"
+					x000002="affiliation"
+					x000004="expdate" />
+			</dataitem>
+		</dataObject>
+
+		<dataObject name="token.icccin" link="cdn" objrdn="sysid=icccin" objclass="xsystem" select="#cid" >
+			<dataitem name="icccin" attr="sysval" />
+		</dataObject>
+
+	</dataSource>
+
+	<dataTarget format="credential_xblk" >
+
+		<authentxRoot>
+			<dataitem name="cdn" attr="cdn" multi="yes" />
+		</authentxRoot>
+
+
+		<targetRoot link="cdn" id="cid" objclass="credential" select="#cid:"/><!--select for update-->
+
+
+		<targetObject name="chuid" objrdn="gcoid=A000000308.5fc102" objclass="gco" id="gcoid" format="stupid_ber;piv_der[5C035FC102,53]" >
+
+			<copyitem type="attr" name="fid" 		value="A000000308.5fc102" />
+			<copyitem type="attr" name="objtype" 	value="dat" />
+
+			<copyitem type="xblk" tag="30" source="chuid:fascn" />
+			<copyitem type="xblk" tag="34" name="guid" source="chuid:guid" />
+			<copyitem type="xblk" tag="35" name="expdate" source="chuid:expdate"/>
+
+			<datagroup name="chuidsdo" tag="3e" attr="xblk" type="calculated" process="stupid_ber[,addtag];cms_sig[,softkey,chuid]" multi="no" >
+				<groupitem  name="30" source="chuid:fascn" />
+				<groupitem  name="34" source="chuid:guid" />
+				<groupitem  name="35" source="chuid:expdate" />
+			</datagroup>
+
+		</targetObject>
+
+		<targetObject name="printedinfo" objrdn="gcoid=A000000308.5fc109" objclass="gco" id="gcoid" format="stupid_ber;piv_der[5C035FC109,53]" >
+
+			<copyitem type="attr" name="fid" 		value="A000000308.5fc109" />
+			<copyitem type="attr" name="objtype" 	value="dat" />
+
+			<copyitem type="xblk" tag="01" source="printedinfo:fullname" />
+			<copyitem type="xblk" tag="02" source="printedinfo:affiliation" />
+			<copyitem type="xblk" tag="04" source="printedinfo:expdate" />
+			<copyitem type="xblk" tag="05" source="token.icccin:icccin" process="substr[0,10]" />
+			<copyitem type="xblk" tag="06" source="token.icccin:icccin" process="substr[-15]" />
+
+		</targetObject>
+
+		<targetObject name="photo" objrdn="gcoid=A000000308.5fc108" objclass="gco" id="gcoid" format="stupid_ber;piv_der[5C035FC108,53]" >
+
+			<copyitem type="attr" name="fid" value="A000000308.5fc108" />
+			<copyitem type="attr" name="sfid" value="01" />
+			<copyitem type="attr" name="objtype" value="dat" />
+
+			<datagroup name="face-cbeff" tag="bc" attr="xblk" type="calculated" process="cbeff_face[+sig]" multi="no" >
+				<groupitem name="image" source="entity.portrait_compressed:image" />
+				<groupitem name="creator_name" value="XTEC PIV/INCITS" />
+				<groupitem name="fascn" source="chuid:fascn" />
+				<groupitem name="guid" source="chuid:guid" />
+				<groupitem name="lenSB" value="0" />
+			</datagroup>
+
+		</targetObject>
+
+		<targetObject name="fingerprints_piv" objrdn="gcoid=A000000308.5fc103" objclass="gco" id="gcoid" format="stupid_ber;piv_der[5C035FC103,53]" >
+
+			<copyitem type="attr" name="fid" value="A000000308.5fc103" />
+			<copyitem type="attr" name="objtype" value="dat" />
+
+			<datagroup name="fingerprint-cbeff" tag="bc" attr="xblk" type="calculated" process="cbeff_finger[+sig]" multi="no" >
+				<groupitem name="r_print" source="primary_fp:template" />
+				<groupitem name="l_print" source="secondary_fp:template" />
+				<groupitem name="creator_name" value="XTEC PIV/INCITS" />
+				<groupitem name="fascn" source="chuid:fascn" />
+				<groupitem name="guid" source="chuid:guid" />
+				<groupitem name="lenSB" value="0" /> 
+				<groupitem name="r_nfiq" source="primary_fp:r_nfiq"  default="1" />
+				<groupitem name="l_nfiq" source="secondary_fp:l_nfiq"  default="1" />
+			</datagroup>
+
+		</targetObject>
+
+		<targetObject name="secobj" objrdn="gcoid=A000000308.5fc106" objclass="gco" id="gcoid" modify="process" >
+		
+			This element invokes a separate anormal process that reads the indicated container objects, 
+			computes the hash values, signs the constructed sdo, and updates the security-object 
+			container object.  The groupitem names correspond to the hash map specified in FIPS 201.
+
+			<datagroup name="secobj_sig" type="calculated" process="secobj_update[softkey]" >
+				<groupitem name="targetrootdn" source="targetroot:objdn" />
+				<groupitem name="01DB00" value="5FC107" />	Card Capability 5FC107
+				<groupitem name="023001" value="5FC109" />	Printed Info 5FC109
+				
+				<!-- gn = group-number
+				<groupitem name="gn3000" value="5FC102" />	CHUID 5FC102
+				<groupitem name="gn6010" value="5FC103" />	Fingerprint 5FC103
+				<groupitem name="gn0101" value="5FC105" />	PIV Cert 5FC105
+				<groupitem name="gnDB00" value="5FC107" />	Card Capability 5FC107
+				<groupitem name="gn6030" value="5FC108" />	Facial Image 5FC108
+				<groupitem name="gn3001" value="5FC109" />	Printed Info 5FC109
+
+				<groupitem name="gn0100" value="5FC10A" />  Digital Sig Cert 5FC10A
+				<groupitem name="gn0102" value="5FC10B" />  Key Mgmt Cert 5FC10B
+				<groupitem name="gn0500" value="5FC101" />  Card Auth Cert 5FC101
+				
+				<groupitem name="gn6050" value="7E" />  	Discovery Object
+				<groupitem name="gn6060" value="5FC10C" />  Key History Object
+				-->
+			</datagroup>
+
+		</targetObject>
+
+		<targetObject name="objectlog" objrdn="sysid=logs" objclass="xsystem" id="sysid" modify="add">
+			<datagroup name="objlog" attr="objectlog" type="calculated" process="concat">
+				<groupitem value="Object updated for signed objects at "/>
+				<groupitem process="timestamp" />
+			</datagroup>
+		</targetObject>
+
+	</dataTarget>
+
+</credentialConfig>

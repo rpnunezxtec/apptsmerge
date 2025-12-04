@@ -1,0 +1,53 @@
+#!/bin/sh
+
+APPNAME="authentx"
+PATH=/authentx/app/https/${APPNAME}/appts2/apptsitesync/bin:/bin:/usr/bin:/usr/local/bin:/usr/local/sbin
+export PATH
+
+case "$1" in
+  start)
+		echo "* Starting appointment site sync"
+	    if svok /service/appts2sitesync_${APPNAME}; then
+    		svc -u /service/appts2sitesync_${APPNAME} /service/appts2sitesync_${APPNAME}/log
+    	else
+    		echo " ... appointment site sync supervise not running"
+    	fi
+
+		if [ ! -d /run/appts2sitesync ]; then
+    		mkdir /run/appts2sitesync
+   		fi
+   		touch /run/appts2sitesync/appts2sitesync_${APPNAME}
+    ;;
+  stop)
+	    echo "* Stopping appointment site sync"
+   		svc -d /service/appts2sitesync_${APPNAME} /service/appts2sitesync_${APPNAME}/log
+
+   		if [ -f /run/appts2sitesync/appts2sitesync_${APPNAME} ]; then
+    		rm /run/appts2sitesync/appts2sitesync_${APPNAME}
+    	fi
+    ;;
+  stat)
+	    svstat /service/appts2sitesync_${APPNAME}
+	    svstat /service/appts2sitesync_${APPNAME}/log
+    ;;
+  restart)
+	    echo "* Stopping appointment site sync"
+		svc -d /service/appts2sitesync_${APPNAME} /service/appts2sitesync_${APPNAME}/log
+	    echo "* Restarting appointment site sync"
+		svc -u /service/appts2sitesync_${APPNAME} /service/appts2sitesync_${APPNAME}/log
+    ;;
+  help)
+    cat <<HELP
+   stop: stops appointment site sync
+  start: starts appointment site sync
+   stat: displays status of appointment site sync
+restart: stops and restarts appointment site sync
+HELP
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart|stat|help}"
+    exit 1
+    ;;
+esac
+
+exit 0

@@ -1,0 +1,35 @@
+<?php
+
+// $Id:$
+
+// xsvc-sessionrefresh.xas
+// AJAX posting from forms to refresh current session.
+// GET: no parameters passed
+
+// Refreshes session and returns new session timeout (in seconds) less grace period
+
+if (!isset($_SESSION["authentx"]))
+	session_start();
+header("Cache-control: private");
+header('Content-Type: text/html; charset=UTF-8');
+
+include_once('../appconfig/config-app.php');
+
+if (AJAX_SESSIONREFRESH_ENABLE !== true)
+	die();
+
+// Check and refresh the user's session
+include('../appcore/vec-incsession.php');
+
+// Calculate the amount of time remaining in seconds
+$sessiontimeleft = SESSION_TIMEOUT - SESSION_TIMEOUT_GRACE;
+
+// Return it to the caller
+header('Content-type: text/xml; charset=utf-8');
+print "<sessionrefresh>";
+print "<sesstime>".$sessiontimeleft."</sesstime>";
+print "<sesstimeout>".SESSION_TIMEOUT."</sesstimeout>";
+print "<sessgrace>".SESSION_TIMEOUT_GRACE."</sessgrace>";
+print "</sessionrefresh>";
+
+?>

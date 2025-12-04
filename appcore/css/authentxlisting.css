@@ -1,0 +1,23 @@
+.listingnode
+{
+	font-size: 12px; 
+	font-weight: 600; 
+	text-decoration: none; 
+	color: #000000; 
+}
+
+.listingobjhead
+{
+	font-size: 11px; 
+	font-weight: 400; 
+	text-decoration: none; 
+	color: #A0A0A0; 
+}
+
+.listingobject
+{
+	font-size: 11px; 
+	font-weight: 400; 
+	text-decoration: none; 
+	color: #000000; 
+}

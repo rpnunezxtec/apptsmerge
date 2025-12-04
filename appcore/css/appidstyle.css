@@ -1,0 +1,244 @@
+.aid_unknown
+{
+	font-family: arial,helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	color: #000000;
+	background-color: #ffffff;
+	padding: 0.1em;
+	text-align: left;
+}
+
+.aid_ac
+{
+	font-family: arial,helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	color: #000000;
+	background-color: #fff9a7;
+	padding: 0.1em;
+	text-align: left;
+}
+
+.aid_fs
+{
+	font-family: arial,helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	color: #000000;
+	background-color: #c7f091;
+	padding: 0.1em;
+	text-align: left;
+}
+
+.aid_appac
+{
+	font-family: arial,helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	color: #000000;
+	background-color: #f0f9b7;
+	padding: 0.1em;
+	text-align: left;
+}
+
+.aid_authid
+{
+	font-family: arial,helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	color: #000000;
+	background-color: #8aff78;
+	padding: 0.1em;
+	text-align: left;
+}
+
+.aid_err
+{
+	font-family: arial,helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	color: #ffffff;
+	background-color: #330000;
+	padding: 0.1em;
+	text-align: left;
+}
+
+.aid_login
+{
+	font-family: arial,helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	color: #000000;
+	background-color: #c8ff5b;
+	padding: 0.1em;
+	text-align: left;
+}
+
+.aid_form
+{
+	font-family: arial,helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	color: #000000;
+	background-color: #46ffed;
+	padding: 0.1em;
+	text-align: left;
+}
+
+.aid_structure
+{
+	font-family: arial,helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	color: #000000;
+	background-color: #4abdff;
+	padding: 0.1em;
+	text-align: left;
+}
+
+.aid_device
+{
+	font-family: arial,helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	color: #000000;
+	background-color: #e0d692;
+	padding: 0.1em;
+	text-align: left;
+}
+
+.aid_devicegroup
+{
+	font-family: arial,helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	color: #000000;
+	background-color: #aeefa4;
+	padding: 0.1em;
+	text-align: left;
+}
+
+.aid_accessgroup
+{
+	font-family: arial,helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	color: #000000;
+	background-color: #8fdea4;
+	padding: 0.1em;
+	text-align: left;
+}
+
+.aid_user
+{
+	font-family: arial,helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	color: #000000;
+	background-color: #ffe2ac;
+	padding: 0.1em;
+	text-align: left;
+}
+
+.aid_inventory
+{
+	font-family: arial,helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	color: #000000;
+	background-color: #ffb6b1;
+	padding: 0.1em;
+	text-align: left;
+}
+
+.aid_qual
+{
+	font-family: arial,helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	color: #000000;
+	background-color: #ffc2a1;
+	padding: 0.1em;
+	text-align: left;
+}
+
+.aid_foodservice
+{
+	font-family: arial,helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	color: #000000;
+	background-color: #b7efdd;
+	padding: 0.1em;
+	text-align: left;
+}
+
+.aid_process
+{
+	font-family: arial,helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	color: #000000;
+	background-color: #e3cbef;
+	padding: 0.1em;
+	text-align: left;
+}
+
+.aid_import
+{
+	font-family: arial,helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	color: #000000;
+	background-color: #ffb9d4;
+	padding: 0.1em;
+	text-align: left;
+}
+
+.aid_export
+{
+	font-family: arial,helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	color: #000000;
+	background-color: #efb2d9;
+	padding: 0.1em;
+	text-align: left;
+}
+
+.aid_stock
+{
+	font-family: arial,helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	color: #000000;
+	background-color: #ccaaff;
+	padding: 0.1em;
+	text-align: left;
+}
+
+.aid_config
+{
+	font-family: arial,helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	color: #000000;
+	background-color: #ccbbaa;
+	padding: 0.1em;
+	text-align: left;
+}
+
+.aid_wapi
+{
+	font-family: arial,helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	color: #000000;
+	background-color: #c09030;
+	padding: 0.1em;
+	text-align: left;
+}
+
+
+

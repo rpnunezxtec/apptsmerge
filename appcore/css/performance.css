@@ -1,0 +1,33 @@
+.mblktext
+{
+    color: #000000;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.lrgblktext
+{
+    color: #000000;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.xlblktext
+{
+    color: #000000;
+    font-size: 30px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.bg-xblue
+{
+	background-color: #00476B;
+}
+
+.bg-light-gray
+{
+	background-color: #f0f2f4;
+}
+

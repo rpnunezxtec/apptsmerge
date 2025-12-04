@@ -1,0 +1,51 @@
+#!/bin/sh
+
+PATH=/authentx/app/https/dhs/appointments/dbpurge/bin:/bin:/usr/bin:/usr/local/bin:/usr/local/sbin
+export PATH
+
+case "$1" in
+  start)
+		echo "* Starting appointment DB cleanup"
+	    if svok /service/apptdbpurge_dhs; then
+    		svc -u /service/apptdbpurge_dhs /service/apptdbpurge_dhs/log
+    	else
+    		echo " ... appointment DB cleanup supervise not running"
+    	fi
+
+    	if [ -d /srv/appt ]; then
+    		touch /srv/appt/apptdbpurge_dhs.lock
+    	fi
+    ;;
+  stop)
+	    echo "* Stopping appointment DB cleanup"
+   		svc -d /service/apptdbpurge_dhs /service/apptdbpurge_dhs/log
+
+   		if [ -f /srv/appt/apptdbpurge_dhs.lock ]; then
+    		rm /srv/appt/apptdbpurge_dhs.lock
+    	fi
+    ;;
+  stat)
+	    svstat /service/apptdbpurge_dhs
+	    svstat /service/apptdbpurge_dhs/log
+    ;;
+  restart)
+	    echo "* Stopping appointment DB cleanup"
+		svc -d /service/apptdbpurge_dhs /service/apptdbpurge_dhs/log
+	    echo "* Restarting appointment DB cleanup"
+		svc -u /service/apptdbpurge_dhs /service/apptdbpurge_dhs/log
+    ;;
+  help)
+    cat <<HELP
+   stop: stops appointment DB cleanup
+  start: starts appointment DB cleanup
+   stat: displays status of appointment DB cleanup
+restart: stops and restarts appointment DB cleanup
+HELP
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart|stat|help}"
+    exit 1
+    ;;
+esac
+
+exit 0

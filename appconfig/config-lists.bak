@@ -1,0 +1,70 @@
+<?php
+$authentxlists = array
+(
+"countries" => array
+(
+"listfile" => "lists/list-countries.php",
+"numfields" => 2,
+"fieldnames" => array("value","country display",),
+"protect" => 0
+),
+
+"haircolor" => array
+(
+"listfile" => "lists/list-haircolor.php",
+"numfields" => 2,
+"fieldnames" => array("value","display",),
+"protect" => 0
+),
+
+"eyecolor" => array
+(
+"listfile" => "lists/list-eyecolor.php",
+"numfields" => 2,
+"fieldnames" => array("value","display",),
+"protect" => 0
+),
+
+"cardtopology" => array
+(
+"listfile" => "lists/list-cardtopology.php",
+"numfields" => 2,
+"fieldnames" => array("value","display",),
+"protect" => 0
+),
+
+"cardpickup" => array
+(
+"listfile" => "lists/list-cardpickup.php",
+"numfields" => 2,
+"fieldnames" => array("value","display",),
+"protect" => 0
+),
+
+"roles" => array
+(
+"listfile" => "lists/list-roles.php",
+"numfields" => 4,
+"fieldnames" => array("value","display","readmask","writemask",),
+"protect" => 0
+),
+
+"xroles" => array
+(
+"listfile" => "lists/list-xroles.php",
+"numfields" => 2,
+"fieldnames" => array("value","display",),
+"protect" => 0
+),
+
+"rightsto" => array
+(
+"listfile" => "lists/list-rightsto.php",
+"numfields" => 2,
+"fieldnames" => array("","",),
+"protect" => 0
+),
+
+);
+
+?>

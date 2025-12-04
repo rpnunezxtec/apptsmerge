@@ -1,0 +1,347 @@
+.alert {
+	-webkit-animation: NAME-YOUR-ANIMATION 0.5s infinite; /* Safari 4+ */
+	-moz-animation:    NAME-YOUR-ANIMATION 0.5s infinite; /* Fx 5+ */
+	-o-animation:      NAME-YOUR-ANIMATION 0.5s infinite; /* Opera 12+ */
+	animation:         NAME-YOUR-ANIMATION 0.5s infinite; /* IE 10+, Fx 29+ */
+}
+
+.acdeny 
+{
+  color: #DC0000;
+}
+
+.offline, .alert-acknowledged, input.circle.alert-acknowledged {
+	background: rgb(255, 166, 166) !important;
+	color: rgb(255, 166, 166) !important;
+}
+
+.acknowledged {
+	background: rgb(211, 193, 82);
+}
+
+.active {
+	color: black;
+	background: white;
+}
+
+.granted {
+	background: rgb(140, 199, 247);
+}
+
+.unregistered {
+	background: rgb(200, 200, 200);
+}
+
+table .normal {
+	background: rgb(0, 232, 59);
+}
+
+input.circle, .circle {
+	display:block;
+	height:23px;
+	width:23px;
+	border-radius:50%;
+	margin:auto;
+	line-height:50px;
+	text-align:center;
+	border: solid 1px black !important;
+}
+
+.datarow:hover {
+	background-color: aliceblue;
+}
+
+div.inputtablerow{
+	color: #000000;
+    font-size: 14px;
+	text-align:left;
+	margin-top:1%;
+	float:left;
+	display: grid;
+	display: -ms-grid;
+	grid-template-columns: 100%;
+	-ms-grid-columns: 100%;
+	width: 100%;
+}
+  
+@-webkit-keyframes NAME-YOUR-ANIMATION {
+	0%, 49% {
+		background: #DC0000;
+		color: #DC0000;
+	}
+	50%, 100% {
+		background: rgb(255, 166, 166);
+		color: rgb(255, 166, 166);
+	}
+}
+
+/*Scrollable checkbox*/
+.rounded-checkbox{
+	width: 350px;
+	height: 400px;
+	background-color: whitesmoke;
+	overflow-y:scroll;
+	font-size: medium;
+	border-width: thin;
+	border-style:solid;
+	border-color: #8097b5;
+	padding-top: 20px;
+	padding-left: 15px;
+}
+
+input[type="checkbox"]:hover{
+	cursor: pointer;
+}
+
+input[type="checkbox"]:checked + label{
+	font-weight:bold;
+	color:black;
+}
+
+
+
+/* CSS for modal */
+.modal-vid {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+	z-index: 50;
+}
+
+.modal-content-vid {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    position: relative;
+	overflow: auto;
+}
+
+.modal-content-wrapper {
+	display: flex;
+	justify-content: center;
+}
+
+.close-vid-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.modal-grid {
+	display: grid !important;
+	grid-template-columns: auto;
+	position: relative;
+	cursor: grab;
+}
+
+.videoFrame{
+	max-width: 100%;
+	max-height: 100%;
+	width: auto;
+	height:auto;
+	
+}
+
+/*CSS for modal side nav */
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+/* Side navigation default style (hidden off-screen) */
+#modalSidenav {
+    width: 250px;
+    position: fixed;
+    left: 0px; /* Start off-screen */
+    top: 0;
+    height: 100%;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: left 0.3s ease; /* Smooth slide animation */
+    padding-top: 60px;
+    z-index: 1000; /* Ensure it appears above other content */
+}
+
+/* When visible, move into view */
+#modalSidenav.open {
+    left: 0;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+  text-align: left;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.nav-arrow {
+  border: solid #818181;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  transition: 0.3s;
+}
+
+.nav-arrow:hover {
+  border: solid #f1f1f1;
+}
+
+.down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+#nav-hamburger{
+  font-size: 30px;
+  cursor: pointer;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+#modal-content-wrapper {
+  transition: margin-left .5s;
+  padding: 16px;
+}
+
+/*Nav menu dropdown */
+.navmodal-collapsible {
+  cursor: pointer;
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 25px; 
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  transition: 0.3s;
+  text-align: left;
+  background-color: #111;
+}
+
+.navmodal-collapsible:hover {
+	color: #f1f1f1;
+}
+
+.navmodal-collapsible:focus {
+	background-color: dimgrey;
+}
+
+.navmodal-content {
+  padding: 0 18px;
+  font-family: system-ui;
+  text-align: justify;
+  max-height: max-content;
+  overflow: auto;
+  padding: 10px;
+  background-color: white;
+  display: none;
+  border-bottom: solid 10px;
+  border-right: solid 10px;
+  border-left: solid 10px;
+}
+
+.nav-display-img{
+	opacity: 0.3;
+	background-color: inherit;
+	border: none;
+	transition: 0.2s
+}
+
+img.nav-display-buttons{
+	width: 80px;
+	height: 80px;
+	border: none;
+}
+
+
+.nav-display-img:hover {
+	cursor: pointer;
+	opacity: 1;
+	border: none;
+}
+
+.nav-display-img:active {
+	opacity: 1;
+	cursor: pointer;
+	border: none;
+}
+
+.nav-display-img:focus{
+	cursor: pointer;
+	opacity: 1;
+	background-color: light-xtec-blue;
+	border: none;
+	
+}
+
+figcaption {
+  background-color: #222;
+  color: #fff;
+  font: italic smaller sans-serif;
+  padding: 3px;
+  text-align: center;
+  postion: absolute;
+}
+
+figure {
+	margin-block: unset;
+    margin-inline: unset;
+}
+
+
+
+/* CSS for table */
+.table {
+    width: 100%;
+}
+
+.video-icon {
+    cursor: pointer;
+}
+
+/* CSS for the play icon */
+.play-icon {
+    cursor: pointer;
+    font-size: 20px; /* Adjust the size as needed */
+    color: rgb(0, 232, 59); /* Change the color to your preference */
+}

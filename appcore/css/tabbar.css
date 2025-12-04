@@ -1,0 +1,146 @@
+div.centeredtabs
+{
+	float: left;
+	width: 100%;
+	background: #ffffff;
+	overflow: hidden;
+	position: relative;	
+	background-image: url(../images/tabbar.png);
+	background-position: center bottom;
+	background-repeat: repeat-x;
+}
+
+ul.centeredtabs {
+	clear: left;
+	float: left;
+	list-style: none;
+	margin: 0 0 0 10px;
+	padding-left: 0px;
+	padding-bottom: 20px;
+	padding-top: 0px;
+	position: relative;
+	left: 50%;
+	text-align: center;
+}
+	
+ul.centeredtabs li {
+	display: block;
+	float: left;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	position: relative;
+	right: 50%;
+	font-family: verdana,arial,helvetica,sans-serif; 
+	color: #000000;
+	font-size: 12px;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+ul.centeredtabs li.pad
+{
+	padding: 0px;
+	margin: 1px 0px 0px 0px;
+	width: 60px;
+}
+
+ul.centeredtabs li.on
+{
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-top: 8px;
+	padding-bottom: 9px;
+	margin: 0px;
+	width: 105px;
+	background-image: url(../images/tabon_blank.png);
+	background-position: center top;
+	background-repeat: no-repeat;
+}
+
+ul.centeredtabs li.off
+{
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-top: 8px;
+	padding-bottom: 6px;
+	margin: 0px;
+	width: 105px;
+	background-image: url(../images/taboff_blank.png);
+	background-position: center top;
+	background-repeat: no-repeat;
+}
+
+ul.centeredtabs a
+{
+	color: #000000;
+	text-decoration: none;
+}
+	
+
+
+ul.tabnames
+{
+	list-style: none;
+	display: block;
+	float: left;
+	margin: 0 0 0 10px;
+	padding-left: 0px;
+	padding-bottom: 20px;
+	padding-top: 0px;
+	min-width: 1000px;
+	width: 100%;
+	background-image: url(../images/tabbar.png);
+	background-position: center bottom;
+	background-repeat: repeat-x;
+}
+
+ul.tabnames li
+{
+	font-family: verdana,arial,helvetica,sans-serif; 
+    color: #000000;
+    font-size: 12px;
+    font-weight: 600;
+	text-decoration: none;
+	text-align: center;
+	float: left;
+}
+
+ul.tabnames li.pad
+{
+	padding: 0px;
+	margin: 1px 0px 0px 0px;
+	width: 60px;
+}
+
+ul.tabnames li.on
+{
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-top: 8px;
+	padding-bottom: 9px;
+	margin: 0px;
+	width: 105px;
+	background-image: url(../images/tabon_blank.png);
+	background-position: center top;
+	background-repeat: no-repeat;
+}
+
+ul.tabnames li.off
+{
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-top: 8px;
+	padding-bottom: 6px;
+	margin: 0px;
+	width: 105px;
+	background-image: url(../images/taboff_blank.png);
+	background-position: center top;
+	background-repeat: no-repeat;
+}
+
+ul.tabnames a
+{
+	color: #000000;
+	text-decoration: none;
+}

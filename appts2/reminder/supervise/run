@@ -1,0 +1,6 @@
+#!/bin/sh
+APPNAME="authentx"
+echo ... Appointment reminder service starting ...
+exec 2>&1
+exec php -f /authentx/app/https/${APPNAME}/appts2/reminder/bin/apptreminder.php
+

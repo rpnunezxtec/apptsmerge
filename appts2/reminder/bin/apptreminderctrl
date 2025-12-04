@@ -1,0 +1,53 @@
+#!/bin/sh
+
+APPNAME="authentx"
+PATH="/authentx/app/https/${APPNAME}/appts2/reminder/bin:/bin:/usr/bin:/usr/local/bin:/usr/local/sbin"
+export PATH
+
+case "$1" in
+  start)
+		echo "* Starting ${APPNAME} appointment reminder"
+	    if svok /service/appts2reminder_${APPNAME}; then
+    		svc -u /service/appts2reminder_${APPNAME} /service/appts2reminder_${APPNAME}/log
+    	else
+    		echo " ... appointment reminder supervise not running"
+    	fi
+
+		if [ ! -d /run/appts2reminder ]; then
+    		mkdir /run/appts2reminder
+   		fi
+   		touch /run/appts2reminder/appts2reminder_${APPNAME}
+    ;;
+  stop)
+	    echo "* Stopping appointment reminder"
+   		svc -d /service/appts2reminder_${APPNAME} /service/appts2reminder_${APPNAME}/log
+
+		if [ -f /run/appts2reminder/appts2reminder_${APPNAME} ]; then
+    		rm /run/appts2reminder/appts2reminder_${APPNAME}
+    	fi
+    ;;
+  stat)
+	    svstat /service/appts2reminder_${APPNAME}
+	    svstat /service/appts2reminder_${APPNAME}/log
+    ;;
+  restart)
+	    echo "* Stopping appointment reminder"
+		svc -d /service/appts2reminder_${APPNAME} /service/appts2reminder_${APPNAME}/log
+	    echo "* Restarting appointment reminder"
+		svc -u /service/appts2reminder_${APPNAME} /service/appts2reminder_${APPNAME}/log
+    ;;
+  help)
+    cat <<HELP
+   stop: stops appointment reminder
+  start: starts appointment reminder
+   stat: displays status of appointment reminder
+restart: stops and restarts appointment reminder
+HELP
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart|stat|help}"
+    exit 1
+    ;;
+esac
+
+exit 0

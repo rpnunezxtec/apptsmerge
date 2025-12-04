@@ -1,0 +1,5 @@
+#!/bin/sh
+echo ... Appointment reminder service starting ...
+exec 2>&1
+exec nice -10 /usr/local/bin/php -f /authentx/app/https/authentx/appointments/reminder/bin/apptreminder.php
+

@@ -1,0 +1,5 @@
+#!/bin/sh
+APPNAME="authentx"
+echo ... Appointments Replication consumer service starting ...
+exec 2>&1
+exec php -f /authentx/app/https/${APPNAME}/appts2/replication/consumer/bin/apptrepl-consume.php

@@ -1,0 +1,4 @@
+#!/bin/sh
+APPNAME="authentx"
+exec /usr/local/bin/multilog t n10 /authentxlogs/appts2/replogmgr_${APPNAME}
+

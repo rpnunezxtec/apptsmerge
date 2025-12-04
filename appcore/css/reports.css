@@ -1,0 +1,19 @@
+.rptselector
+{
+	font-family: arial,helvetics,sans-serif;
+	font-size: 10px;
+	font-weight: 600;
+	background-color: #dddddd;
+	padding: 0.1em;
+	text-align: center;
+}
+
+.rptlni
+{
+	font-family: arial,helvetics,sans-serif;
+	font-size: 10px;
+	font-weight: 600;
+	background-color: #e7e7e7;
+	padding: 0.1em;
+	text-align: center;
+}

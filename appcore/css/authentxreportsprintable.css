@@ -1,0 +1,66 @@
+.sysrpttitle
+{
+	font-family: arial,helvetica,sans-serif; 
+	font-size: 16pt; 
+	font-weight: 600; 
+	font-variant: normal; 
+	font-style: normal; 
+	text-decoration: none; 
+	text-transform: none; 
+	text-align: left; 
+	color: #000000;
+}
+
+.sysrpthead
+{
+	font-family: arial,helvetica,sans-serif; 
+	font-size: 12pt; 
+	font-weight: 600; 
+	font-variant: normal; 
+	font-style: normal; 
+	text-decoration: none; 
+	text-transform: none; 
+	text-align: left; 
+	color: #000000;
+}
+
+.sysrpttable
+{
+	border: 1pt solid black;
+	padding: 2pt;
+	border-collapse: collapse;
+	background-color: #ffffff;
+}
+	
+.sysrpttablehead
+{
+	font-family: verdana,arial,helvetica,sans-serif; 
+	color: #000000;
+    font-size: 10pt; 
+    font-weight: 600; 
+    text-align: center;
+    background-color: #e0e0e0;
+    border: 1pt solid black;
+}
+
+.sysrpttableline0
+{
+	font-family: verdana,arial,helvetica,sans-serif; 
+	color: #000000;
+    font-size: 9pt; 
+    font-weight: 400; 
+    text-align: left;
+    background-color: #ffffff;
+    border: 1pt solid black;
+}
+
+.sysrpttableline1
+{
+	font-family: verdana,arial,helvetica,sans-serif; 
+	color: #000000;
+    font-size: 9pt; 
+    font-weight: 400; 
+    text-align: left;
+    background-color: #f0f0f0;
+    border: 1pt solid black;
+}

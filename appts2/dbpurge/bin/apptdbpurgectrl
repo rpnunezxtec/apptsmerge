@@ -1,0 +1,53 @@
+#!/bin/sh
+
+APPNAME="authentx"
+PATH=/authentx/app/https/${APPNAME}/appts2/dbpurge/bin:/bin:/usr/bin:/usr/local/bin:/usr/local/sbin
+export PATH
+
+case "$1" in
+  start)
+		echo "* Starting appointment DB cleanup"
+	    if svok /service/appts2dbpurge_${APPNAME}; then
+    		svc -u /service/appts2dbpurge_${APPNAME} /service/appts2dbpurge_${APPNAME}/log
+    	else
+    		echo " ... appointment DB cleanup supervise not running"
+    	fi
+
+		if [ ! -d /run/appts2dbpurge ]; then
+    		mkdir /run/appts2dbpurge
+   		fi
+   		touch /run/appts2dbpurge/appts2dbpurge_${APPNAME}
+    ;;
+  stop)
+	    echo "* Stopping appointment DB cleanup"
+   		svc -d /service/appts2dbpurge_${APPNAME} /service/appts2dbpurge_${APPNAME}/log
+
+		if [ -f /run/appts2dbpurge/appts2dbpurge_${APPNAME} ]; then
+    		rm /run/appts2dbpurge/appts2dbpurge_${APPNAME}
+    	fi
+    ;;
+  stat)
+	    svstat /service/appts2dbpurge_${APPNAME}
+	    svstat /service/appts2dbpurge_${APPNAME}/log
+    ;;
+  restart)
+	    echo "* Stopping appointment DB cleanup"
+		svc -d /service/appts2dbpurge_${APPNAME} /service/appts2dbpurge_${APPNAME}/log
+	    echo "* Restarting appointment DB cleanup"
+		svc -u /service/appts2dbpurge_${APPNAME} /service/appts2dbpurge_${APPNAME}/log
+    ;;
+  help)
+    cat <<HELP
+   stop: stops appointment DB cleanup
+  start: starts appointment DB cleanup
+   stat: displays status of appointment DB cleanup
+restart: stops and restarts appointment DB cleanup
+HELP
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart|stat|help}"
+    exit 1
+    ;;
+esac
+
+exit 0

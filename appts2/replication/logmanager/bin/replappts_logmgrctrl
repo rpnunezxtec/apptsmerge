@@ -1,0 +1,52 @@
+#!/bin/sh
+
+APPNAME="authentx"
+PATH="/authentx/app/https/${APPNAME}/appts2/replication/logmanager/bin:/bin:/usr/bin:/usr/local/bin:/usr/local/sbin"
+export PATH
+
+case "$1" in
+  start)
+		echo "* Starting ${APPNAME} Replication Log manager"
+	    if svok /service/repl-appts2logmgr_${APPNAME}; then
+    		svc -u /service/repl-appts2logmgr_${APPNAME} /service/repl-appts2logmgr_${APPNAME}/log
+    	else
+    		echo " ... ${APPNAME} Replication Log manager supervise not running"
+    	fi
+
+    	if [ -d /srv/appts2replication ]; then
+    		touch /srv/appts2replication/repl-appts2logmgr_${APPNAME}
+    	fi
+    ;;
+  stop)
+	    echo "* Stopping ${APPNAME} Replication Log manager"
+   		svc -d /service/repl-appts2logmgr_${APPNAME} /service/repl-appts2logmgr_${APPNAME}/log
+
+   		if [ -f /srv/appts2replication/repl-appts2logmgr_${APPNAME} ]; then
+    		rm /srv/appts2replication/repl-appts2logmgr_${APPNAME}
+    	fi
+    ;;
+  stat)
+	    svstat /service/repl-appts2logmgr_${APPNAME}
+	    svstat /service/repl-appts2logmgr_${APPNAME}/log
+    ;;
+  restart)
+	    echo "* Stopping ${APPNAME} Replication Log manager"
+		svc -d /service/repl-appts2logmgr_${APPNAME} /service/repl-appts2logmgr_${APPNAME}/log
+	    echo "* Restarting ${APPNAME} Replication Log manager"
+		svc -u /service/repl-appts2logmgr_${APPNAME} /service/repl-appts2logmgr_${APPNAME}/log
+    ;;
+  help)
+    cat <<HELP
+   stop: stops ${APPNAME} Replication Log manager
+  start: starts ${APPNAME} Replication Log manager
+   stat: displays status of ${APPNAME} Replication Log manager
+restart: stops and restarts ${APPNAME} Replication Log manager
+HELP
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart|stat|help}"
+    exit 1
+    ;;
+esac
+
+exit 0
